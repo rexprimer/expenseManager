@@ -37,4 +37,7 @@ public class Expense {
     private Timestamp updatedAt;
 
 
+    public void setUser(User loggedInUser) {
+
+    }
 }

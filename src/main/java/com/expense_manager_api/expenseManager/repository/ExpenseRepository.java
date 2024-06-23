@@ -1,19 +1,25 @@
 package com.expense_manager_api.expenseManager.repository;
 
 import com.expense_manager_api.expenseManager.model.Expense;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    List<Expense> findByCategory(String category);
+    Page<Expense> findByUserId(Long id, Pageable page);
 
-    List<Expense> findByName(String Name);
+    Optional<Expense> findByUserIdAndId(Long id, Long id1);
 
-    List<Expense> findByDateBetween(Date date, Date date2);
+    List<Expense> findByUserIdAndCategory(Long id, String category, Pageable page);
+
+    List<Expense> findByUserIdAndNameContaining(Long id, String keyword, Pageable page);
+
+    List<Expense> findByUserIdAndDateBetween(Long id, Date startDate, Date endDate, Pageable page);
 }
 
