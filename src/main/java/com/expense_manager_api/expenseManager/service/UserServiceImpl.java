@@ -6,7 +6,6 @@ import com.expense_manager_api.expenseManager.exceptions.ResourceNotFoundExcepti
 import com.expense_manager_api.expenseManager.model.User;
 import com.expense_manager_api.expenseManager.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,11 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
+    private final PasswordEncoder bcryptEncoder;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    public UserServiceImpl(PasswordEncoder bcryptEncoder, UserRepository userRepository) {
+        this.bcryptEncoder = bcryptEncoder;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User createUser(UserModel user) {
