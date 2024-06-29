@@ -1,29 +1,28 @@
 package com.expense_manager_api.expenseManager.service;
 
-import com.expense_manager_api.expenseManager.model.Expense;
-import org.springframework.data.domain.Page;
+import com.expense_manager_api.expenseManager.dto.ExpenseDTO;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
+
+
 public interface ExpenseService {
+	
+	List<ExpenseDTO> getAllExpenses(Pageable page);
+	
+	ExpenseDTO getExpenseById(String expenseId);
+	
+	void deleteExpenseById(String expenseId);
 
-    Page<Expense> getAllExpenses(Pageable page);
-
-    Expense getExpenseById(Long id);
-
-    void deleteExpenseById(Long id);
-
-    Expense saveExpenseDetails(Expense expense);
-
-    Expense updateExpenseDetails(Long id, Expense expense);
-
-    List<Expense> readByCategory(String category, Pageable page);
-
-    List<Expense> readByName(String keyword, Pageable page);
-
-    List<Expense> readByDate(Date startDate, Date endDate, Pageable page);
-
-    List<Expense> readByDate(java.sql.Date startDate, java.sql.Date endDate, Pageable page);
+	ExpenseDTO saveExpenseDetails(ExpenseDTO expenseDTO);
+	
+	ExpenseDTO updateExpenseDetails(String expenseId, ExpenseDTO expenseDTO);
+	
+	List<ExpenseDTO> readByCategory(String category, Pageable page);
+	
+	List<ExpenseDTO> readByName(String keyword, Pageable page);
+	
+	List<ExpenseDTO> readByDate(Date startDate, Date endDate, Pageable page);
 }

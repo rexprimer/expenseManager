@@ -1,14 +1,16 @@
 package com.expense_manager_api.expenseManager.repository;
 
-import com.expense_manager_api.expenseManager.model.User;
-import org.springframework.data.repository.CrudRepository;
+import com.expense_manager_api.expenseManager.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<User, Long> {
 
-    Boolean existsByEmail(String email);
-
-    Optional<User> findByEmail(String email);
-
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+	
+	Boolean existsByEmail(String email);
+	
+	Optional<User> findByEmail(String email);
 }

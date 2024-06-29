@@ -1,5 +1,5 @@
 
-package in.bushansirgur.expensetrackerapi.entity;
+package com.expense_manager_api.expenseManager.dto;
 
 
 import jakarta.validation.constraints.Email;
