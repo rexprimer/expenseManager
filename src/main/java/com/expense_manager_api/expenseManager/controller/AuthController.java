@@ -20,44 +20,52 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 @RestController
 public class AuthController {
-	
+
+	//logger
+	private static final Logger logger = Logger.getLogger(AuthController.class.getName());
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<JwtResponse> login(@RequestBody AuthModel authModel) throws Exception {
-		
+
 		authenticate(authModel.getEmail(), authModel.getPassword());
-		
-		//generate the jwt token
+
+		// Generate the JWT token
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authModel.getEmail());
-		
+
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		
+
+		logger.info("User " + userDetails.getUsername() + " logged in successfully."); // Log successful login
+
 		return new ResponseEntity<JwtResponse>(new JwtResponse(token), HttpStatus.OK);
 	}
-	
+
 	private void authenticate(String email, String password) throws Exception {
-		
+//checks
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 		} catch (DisabledException e) {
+			logger.warning("Login attempt with disabled user: " + email);
 			throw new Exception("User disabled");
 		} catch (BadCredentialsException e) {
+			logger.warning("Login attempt with bad credentials for user: " + email);
 			throw new Exception("Bad Credentials");
 		}
-		
 	}
 
 	@PostMapping("/register")
@@ -65,21 +73,3 @@ public class AuthController {
 		return new ResponseEntity<User>(userService.createUser(user), HttpStatus.CREATED);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

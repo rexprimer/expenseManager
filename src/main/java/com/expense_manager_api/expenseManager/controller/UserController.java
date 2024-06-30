@@ -14,8 +14,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	
+
 	@GetMapping("/profile")
 	public ResponseEntity<User> readUser() {
 		return new ResponseEntity<User>(userService.readUser(), HttpStatus.OK);

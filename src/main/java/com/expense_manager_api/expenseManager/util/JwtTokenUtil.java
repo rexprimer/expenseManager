@@ -31,8 +31,7 @@ public class JwtTokenUtil {
 			.signWith(SignatureAlgorithm.HS512, secret)
 			.compact();
 	}
-	
-	
+
 	public String getUsernameFromToken(String jwtToken) {
 		return getClaimFromToken(jwtToken, Claims::getSubject);
 	}
@@ -42,21 +41,15 @@ public class JwtTokenUtil {
 		return claimsResolver.apply(claims);
 	}
 
-
 	public boolean validateToken(String jwtToken, UserDetails userDetails) {
-		
 		final String username = getUsernameFromToken(jwtToken);
-		
 		return username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
-		
 	}
-
 
 	private boolean isTokenExpired(String jwtToken) {
 		final Date expiration = getExpirationDateFromToken(jwtToken);
 		return expiration.before(new Date());
 	}
-
 
 	private Date getExpirationDateFromToken(String jwtToken) {
 		return getClaimFromToken(jwtToken, Claims::getExpiration);
